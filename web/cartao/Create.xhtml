@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CartaoCreateDlg" widgetVar="CartaoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCartaoTitle}">
+            <h:form id="CartaoCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{cartaoController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateCartaoLabel_dtValidade}" for="dtValidade" />
+                        <p:calendar id="dtValidade" pattern="MM/dd/yyyy" value="#{cartaoController.selected.dtValidade}" title="#{bundle.EditCartaoTitle_dtValidade}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateCartaoLabel_numero}" for="numero" />
+                        <p:inputText id="numero" value="#{cartaoController.selected.numero}" title="#{bundle.CreateCartaoTitle_numero}" required="true" requiredMessage="#{bundle.CreateCartaoRequiredMessage_numero}"/>
+                        <p:outputLabel value="#{bundle.CreateCartaoLabel_idCliente}" for="idCliente" />
+                        <p:selectOneMenu id="idCliente" value="#{cartaoController.selected.idCliente}" >
+                            <f:selectItems value="#{clienteController.itemsAvailableSelectOne}"
+                                           var="idClienteItem"
+                                           itemValue="#{idClienteItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cartaoController.create}" value="#{bundle.Save}" update="display,:CartaoListForm:datalist,:growl" oncomplete="handleSubmit(args,'CartaoCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="CartaoCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CartaoEditDlg" widgetVar="CartaoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditCartaoTitle}">
+            <h:form id="CartaoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{cartaoController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditCartaoLabel_dtValidade}" for="dtValidade" />
+                        <p:calendar id="dtValidade" pattern="MM/dd/yyyy" value="#{cartaoController.selected.dtValidade}" title="#{bundle.EditCartaoTitle_dtValidade}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditCartaoLabel_numero}" for="numero" />
+                        <p:inputText id="numero" value="#{cartaoController.selected.numero}" title="#{bundle.EditCartaoTitle_numero}" required="true" requiredMessage="#{bundle.EditCartaoRequiredMessage_numero}"/>
+                        <p:outputLabel value="#{bundle.EditCartaoLabel_idCliente}" for="idCliente" />
+                        <p:selectOneMenu id="idCliente" value="#{cartaoController.selected.idCliente}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{clienteController.itemsAvailableSelectOne}"
+                                           var="idClienteItem"
+                                           itemValue="#{idClienteItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{cartaoController.update}" value="#{bundle.Save}" update="display,:CartaoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'CartaoEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="CartaoEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
